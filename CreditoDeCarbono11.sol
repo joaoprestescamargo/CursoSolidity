@@ -33,7 +33,7 @@ contract CompraDeCreditoDeCarbono
     returns(uint256 valorMulta){
             
         valorMulta = ((valorDaCotacao/2)*diasAtrasoNaTransferencia);
-        }
+    }
         
      function store(string memory codigoCivil) public {
         leiDoContrato = codigoCivil;

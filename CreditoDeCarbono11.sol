@@ -5,13 +5,16 @@ contract CompraDeCreditoDeCarbono
 {
     string public comprador;
     string public vendedor;
+    string public leiDoContrato;
     uint256 public valor;
     uint256 private valorDaCotacao;
+    
    
     
     constructor (
         string memory nomeComprador,
         string memory nomeVendedor,
+        string memory leiBrasileira,
         uint256 valorDoCreditoAtual
         
         )
@@ -19,6 +22,7 @@ contract CompraDeCreditoDeCarbono
     {
         comprador = nomeComprador;
         vendedor = nomeVendedor;
+        leiDoContrato = leiBrasileira;
         valorDaCotacao = valorDoCreditoAtual/250;
         
     }
@@ -31,8 +35,8 @@ contract CompraDeCreditoDeCarbono
         valorMulta = ((valorDaCotacao/2)*diasAtrasoNaTransferencia);
         }
         
-     function store(uint256 valorDaUltimaCompra) public {
-        valorDaUltimaCompra = valor;
+     function store(string memory codigoCivil) public {
+        leiDoContrato = codigoCivil;
     }
     
     function dataDeEntregaDoCredito () public view returns (uint256) {

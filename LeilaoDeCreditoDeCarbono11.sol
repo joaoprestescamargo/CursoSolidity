@@ -1,5 +1,4 @@
 // SPDX-License-Identifier: GPL-3.0
-// Desenvolvido por João Camargo
 pragma solidity 0.6.10;
 
 

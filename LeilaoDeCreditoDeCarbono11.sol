@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0
+// Desenvolvido por João Camargo
 pragma solidity 0.6.10;
 
 
@@ -13,7 +14,13 @@ contract LeilaoDeCreditoDeCarbono {
     
     string public leiDoContrato;
     
-    uint public cotacaoAtualDoCreditoDeCarbonoEmEuro;
+    uint public cotacaoAtualDoCreditoDeCarbonoEmEther;
+    
+    // O Incremento Mínimo será de 1 Ether
+    uint public incrementoMinimo;
+    
+    // A comissão do leiloeiro será calculada em porcentagem (%)
+    uint public comissaoDoLeiloeiro;
 
     address payable public contaBovespa;
     uint public prazoFinalLeilao;
@@ -45,14 +52,15 @@ contract LeilaoDeCreditoDeCarbono {
         prazoFinalLeilao = now + _duracaoLeilao;
         quantidadeEmToneladasDoLote = 500;
         leiDoContrato = leiBrasileira;
-        cotacaoAtualDoCreditoDeCarbonoEmEuro = 16;
-        
+        cotacaoAtualDoCreditoDeCarbonoEmEther = 16;
+        incrementoMinimo = 1;
+        comissaoDoLeiloeiro =5;
     }
 
 
     function lance(string memory nomeOfertante, address payable enderecoCarteiraOfertante) public payable {
-        require(now <= prazoFinalLeilao, "Leilao encerrado.");
-        require(msg.value > maiorLance, "Ja foram apresentados lances maiores.");
+        require(now <= prazoFinalLeilao, "Leilao encerrado");
+        require(msg.value > maiorLance, "Já foram apresentados lances maiores");
         
         maiorOfertante = msg.sender;
         maiorLance = msg.value;
@@ -66,13 +74,10 @@ contract LeilaoDeCreditoDeCarbono {
             }
         }
         
-        //Crio o ofertante
         Ofertante memory ofertanteVencedorTemporario = Ofertante(nomeOfertante, enderecoCarteiraOfertante, msg.value, false);
         
-        //Adiciono o novo concorrente vencedor temporario no array de ofertantes
         ofertantes.push(ofertanteVencedorTemporario);
         
-        //Adiciono o novo concorrente vencedor temporario na lista (mapa) de ofertantes
         listaOfertantes[ofertanteVencedorTemporario.enderecoCarteira] = ofertanteVencedorTemporario;
     
         emit novoMaiorLance (msg.sender, msg.value);
@@ -88,7 +93,11 @@ contract LeilaoDeCreditoDeCarbono {
 
         contaBovespa.transfer(address(this).balance);
     }
+         // Acesso ao Edital do Leilão BOVESPA
          function store(string memory editalLeilaoBovespa) public {
          
+    }
+         function comissionamento () public view returns (uint) {
+         return comissaoDoLeiloeiro;
     }
 }
